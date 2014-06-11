@@ -14,6 +14,6 @@ namespace FxSyncNet.ApiModels
         public PublicKey PublicKey { get; set; }
 
         [DataMember(Name = "duration")]
-        public int Duration { get; set; }
+        public long Duration { get; set; }
     }
 }

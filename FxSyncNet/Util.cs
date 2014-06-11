@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -117,6 +118,18 @@ namespace FxSyncNet
             System.DateTime dtDateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, System.DateTimeKind.Utc);
             dtDateTime = dtDateTime.AddSeconds(unixTimeStamp).ToLocalTime();
             return dtDateTime;
+        }
+
+        // caused by Microsoft changing the endianes in RSAParameters :-(
+        public static BigInteger BigIntegerFromBigEndian(byte[] data)
+        {
+            data = data.Reverse().ToArray();
+            if (data[data.Length - 1] > 127)
+            {
+                Array.Resize(ref data, data.Length + 1);
+                data[data.Length - 1] = 0;
+            }
+            return new BigInteger(data);
         }
     }
 }
