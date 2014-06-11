@@ -24,33 +24,35 @@ namespace FxSyncNet
             httpClient.BaseAddress = new Uri(baseAddress);
         }
 
-        protected Task<TResponse> Get<TResponse>(string requestUri, string assertion)
+        protected HttpRequestHeaders RequestHeaders { get { return httpClient.DefaultRequestHeaders; } }
+
+        protected Task<TResponse> Get<TResponse>(string requestUri, string assertion, string clientState)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.BrowserId, assertion, null, 0);
+            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.BrowserId, assertion, null, 0, clientState);
         }
 
         protected Task<TResponse> Get<TResponse>(string requestUri, string token, string context, int size)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size);
+            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size, null);
         }
 
         protected Task Get(string requestUri, string token, string context, int size)
         {
-            return Execute(HttpMethod.Get, requestUri, null, null, AuthenticationMethod.Hawk, token, context, size);
+            return Execute(HttpMethod.Get, requestUri, null, null, AuthenticationMethod.Hawk, token, context, size, null);
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Anonymous, null, null, 0);
+            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Anonymous, null, null, 0, null);
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request, string token, string context, int size)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size);
+            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size, null);
         }
 
         // TODO: improve with relfection.emit/Expression Trees to provide better async performance
-        private Task Execute(HttpMethod method, string requestUri, object request, Type responseType, AuthenticationMethod authenticationMethod, string token, string context, int size)
+        private Task Execute(HttpMethod method, string requestUri, object request, Type responseType, AuthenticationMethod authenticationMethod, string token, string context, int size, string clientState)
         {
             if(authenticationMethod == AuthenticationMethod.Hawk)
             {
@@ -62,6 +64,9 @@ namespace FxSyncNet
             }
 
             HttpRequestMessage requestMessage = new HttpRequestMessage(method, requestUri);
+            
+            if(clientState != null)
+                requestMessage.Headers.Add("X-Client-State", clientState);
 
             string jsonPayload = "";
             if (request != null)

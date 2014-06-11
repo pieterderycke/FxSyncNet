@@ -13,9 +13,9 @@ namespace FxSyncNet
         {
         }
 
-        public async Task<TokenResponse> GetSyncToken(string browerIdAssertion)
+        public async Task<TokenResponse> GetSyncToken(string browerIdAssertion, string clientState)
         {
-            return await Get<TokenResponse>("sync/1.5", browerIdAssertion);
+            return await Get<TokenResponse>("sync/1.5", browerIdAssertion, clientState);
         }
     }
 }
