@@ -29,29 +29,14 @@ namespace FxSyncNet.ApiModels
         {
             using (var hmac = new HMACSHA256())
             {
-                Pbkdf2 pbkdf2 = new Pbkdf2(hmac, Encoding.UTF8.GetBytes(password), Kwe("quickStretch", Email), 1000);
+                Pbkdf2 pbkdf2 = new Pbkdf2(hmac, Encoding.UTF8.GetBytes(password), Util.Kwe("quickStretch", Email), 1000);
                 byte[] quickStretchedPW = pbkdf2.GetBytes(32);
 
                 HKDF hkdf = new HKDF(hmac, quickStretchedPW);
-                byte[] authPW = hkdf.Expand(Kw("authPW"), 32);
+                byte[] authPW = hkdf.Expand(Util.Kw("authPW"), 32);
 
-                return Hex(authPW);
+                return Util.ToHexString(authPW);
             }
-        }
-
-        private byte[] Kw(string name)
-        {
-            return Encoding.UTF8.GetBytes(string.Format("identity.mozilla.com/picl/v1/{0}", name));
-        }
-
-        private byte[] Kwe(string name, string email)
-        {
-            return Encoding.UTF8.GetBytes(string.Format("identity.mozilla.com/picl/v1/{0}:{1}", name, email));
-        }
-
-        private string Hex(byte[] data)
-        {
-            return BitConverter.ToString(data).Replace("-", "");
         }
     }
 }
