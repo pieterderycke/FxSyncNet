@@ -68,6 +68,8 @@
     <Compile Include="ApiModels\PublicKey.cs" />
     <Compile Include="ApiModels\TokenResponse.cs" />
     <Compile Include="AuthenticationMethod.cs" />
+    <Compile Include="BundleKeys.cs" />
+    <Compile Include="Credentials.cs" />
     <Compile Include="Hawk.cs" />
     <Compile Include="HawkCredential.cs" />
     <Compile Include="HKDF.cs" />

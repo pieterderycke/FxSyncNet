@@ -15,14 +15,14 @@ namespace FxSyncNet
         {
         }
 
-        public Task<LoginResponse> Login(string email, string password)
+        public Task<LoginResponse> Login(Credentials credentials)
         {
-            return Login(email, password, false);
+            return Login(credentials, false);
         }
 
-        public Task<LoginResponse> Login(string email, string password, bool keys)
+        public Task<LoginResponse> Login(Credentials credentials, bool keys)
         {
-            return Post<LoginRequest, LoginResponse>("account/login" + (keys ? "?keys=true" : ""), new LoginRequest(email, password));
+            return Post<LoginRequest, LoginResponse>("account/login" + (keys ? "?keys=true" : ""), new LoginRequest(credentials));
         }
 
         public Task<DevicesResponse> Devices(string sessionToken)

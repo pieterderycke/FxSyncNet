@@ -131,5 +131,31 @@ namespace FxSyncNet
             }
             return new BigInteger(data);
         }
+
+        public static byte[] Xor(byte[] buffer1, byte[] buffer2)
+        {
+            if (buffer1.Length != buffer2.Length)
+                throw new ArgumentException("The length of the input buffers does not match.");
+
+            byte[] result = new byte[buffer1.Length];
+
+            for (int i = 0; i < buffer1.Length; i++)
+                result[i] = (byte)(buffer1[i] ^ buffer2[i]);
+            return result;
+        }
+
+        public static bool AreEqual(byte[] buffer1, byte[] buffer2)
+        {
+            if (buffer1.Length != buffer2.Length)
+                return false;
+
+            for (int i = 0; i < buffer1.Length; i++)
+            {
+                if (buffer1[i] != buffer2[i])
+                    return false;
+            }
+
+            return true;
+        }
     }
 }

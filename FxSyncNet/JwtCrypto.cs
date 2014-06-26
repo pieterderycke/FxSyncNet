@@ -18,7 +18,7 @@ namespace FxSyncNet
             JwtSecurityToken token = new JwtSecurityToken(
                 //issuer: "https://api.accounts.firefox.com",
                 audience: "https://token.services.mozilla.com",
-                lifetime: new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddHours(1)),
+                //lifetime: new Lifetime(DateTime.UtcNow, DateTime.UtcNow.AddHours(1)),
                 signingCredentials: new SigningCredentials(new RsaSecurityKey(rsa),
                     SecurityAlgorithms.RsaSha256Signature, 
                     SecurityAlgorithms.Sha256Digest)

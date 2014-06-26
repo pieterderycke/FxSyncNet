@@ -13,10 +13,10 @@ namespace FxSyncNet.ApiModels
     [DataContract]
     public class LoginRequest
     {
-        public LoginRequest(string email, string password)
+        public LoginRequest(Credentials credentials)
         {
-            this.Email = email;
-            this.AuthPW = CalculateAuthPW(password);
+            this.Email = credentials.Email;
+            this.AuthPW = Util.ToHexString(credentials.AuthPW);
         }
 
         [DataMember(Name="email")]
@@ -24,19 +24,5 @@ namespace FxSyncNet.ApiModels
 
         [DataMember(Name="authPW")]
         public string AuthPW  { get; private set; }
-
-        private string CalculateAuthPW(string password)
-        {
-            using (var hmac = new HMACSHA256())
-            {
-                Pbkdf2 pbkdf2 = new Pbkdf2(hmac, Encoding.UTF8.GetBytes(password), Util.Kwe("quickStretch", Email), 1000);
-                byte[] quickStretchedPW = pbkdf2.GetBytes(32);
-
-                HKDF hkdf = new HKDF(hmac, quickStretchedPW);
-                byte[] authPW = hkdf.Expand(Util.Kw("authPW"), 32);
-
-                return Util.ToHexString(authPW);
-            }
-        }
     }
 }
