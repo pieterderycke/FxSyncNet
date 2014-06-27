@@ -7,7 +7,7 @@ namespace RFC5869
     /// HMAC-based Extract-and-Expand Key Derivation Function (HKDF)
     /// https://tools.ietf.org/html/rfc5869
     /// </summary>
-    public class HKDF
+    internal class HKDF
     {
         private readonly HMAC hmac;
         private readonly int hashLength;

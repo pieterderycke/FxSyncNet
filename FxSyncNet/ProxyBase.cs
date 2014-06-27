@@ -26,68 +26,59 @@ namespace FxSyncNet
 
         protected HttpRequestHeaders RequestHeaders { get { return httpClient.DefaultRequestHeaders; } }
 
+        protected Task<TResponse> Get<TResponse>(string requestUri, HawkNet.HawkCredential credential)
+        {
+            AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, credential);
+            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null);
+        }
+
         protected Task<TResponse> Get<TResponse>(string requestUri, string assertion, string clientState)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.BrowserId, assertion, null, 0, clientState);
+            AuthenticationHeaderValue authenticationHeader = GetBrowserIdAuthenticationHeader(assertion);
+            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, clientState);
         }
 
         protected Task<TResponse> Get<TResponse>(string requestUri, string token, string context, int size)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size, null);
+            AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, token, context, size);
+            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null);
         }
 
         protected Task Get(string requestUri, string token, string context, int size)
         {
-            return Execute(HttpMethod.Get, requestUri, null, null, AuthenticationMethod.Hawk, token, context, size, null);
+            AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, token, context, size);
+            return Execute(HttpMethod.Get, requestUri, null, null, authenticationHeader, null);
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Anonymous, null, null, 0, null);
+            string jsonPayload = GetJsonPayload(request);
+            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), null, null);
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request, string token, string context, int size)
         {
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, request, typeof(TResponse), AuthenticationMethod.Hawk, token, context, size, null);
+            string jsonPayload = GetJsonPayload(request);
+            AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Post, requestUri, jsonPayload, token, context, size);
+            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), authenticationHeader, null);
         }
 
+
         // TODO: improve with relfection.emit/Expression Trees to provide better async performance
-        private Task Execute(HttpMethod method, string requestUri, object request, Type responseType, AuthenticationMethod authenticationMethod, string token, string context, int size, string clientState)
+        private Task Execute(HttpMethod method, string requestUri, string jsonPayload, Type responseType, AuthenticationHeaderValue authenticationHeader, string clientState)
         {
-            if(authenticationMethod == AuthenticationMethod.Hawk)
-            {
-                if (string.IsNullOrWhiteSpace(token))
-                    throw new ArgumentNullException("token", "The token must be provided for Hawk authentication.");
-
-                if (string.IsNullOrWhiteSpace(context))
-                    throw new ArgumentNullException("context", "The context must be provided for Hawk authentication.");
-            }
-
             HttpRequestMessage requestMessage = new HttpRequestMessage(method, requestUri);
             
             if(clientState != null)
                 requestMessage.Headers.Add("X-Client-State", clientState);
 
-            string jsonPayload = "";
-            if (request != null)
+            if (jsonPayload != null)
             {
-                jsonPayload = JsonConvert.SerializeObject(request);
                 requestMessage.Content = new StringContent(jsonPayload, Encoding.UTF8, "application/json");
             }
 
-            switch(authenticationMethod)
-            {
-                case AuthenticationMethod.Anonymous:
-                    break;
-                case AuthenticationMethod.Hawk:
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("Hawk", Hawk(method, requestUri, token, jsonPayload, context, size));
-                    break;
-                case AuthenticationMethod.BrowserId:
-                    requestMessage.Headers.Authorization = new AuthenticationHeaderValue("BrowserID", token);
-                    break;
-                default:
-                    throw new ArgumentException(string.Format("Unknown authentication method \"{0}\".", authenticationMethod), "authenticationMethod");
-            }
+            if (authenticationHeader != null)
+                requestMessage.Headers.Authorization = authenticationHeader;
 
             HttpResponseMessage response = httpClient.SendAsync(requestMessage).Result;
             if(response.IsSuccessStatusCode)
@@ -115,10 +106,14 @@ namespace FxSyncNet
             }
         }
 
+        private string GetJsonPayload(object request)
+        {
+            return JsonConvert.SerializeObject(request);
+        }
         
         // https://github.com/hueniverse/hawk/blob/master/lib/client.js
         // https://github.com/mozilla/fxa-python-client
-        private string Hawk(HttpMethod method, string requestUri, string token, string jsonPayload, string context, int size)
+        private AuthenticationHeaderValue GetHawkAuthenticationHeader(HttpMethod method, string requestUri, string jsonPayload, string token, string context, int size)
         {
             string tokenId;
             string reqHMACkey;
@@ -137,12 +132,24 @@ namespace FxSyncNet
             HawkNet.HawkCredential credential =
                 new HawkNet.HawkCredential() { Algorithm = "sha256", Key = reqHMACkey, Id = tokenId };
 
-            return HawkNet.Hawk.GetAuthorizationHeader(
+            return GetHawkAuthenticationHeader(method, requestUri, jsonPayload, credential);
+        }
+
+        private AuthenticationHeaderValue GetHawkAuthenticationHeader(HttpMethod method, string requestUri, string jsonPayload, HawkNet.HawkCredential credential)
+        {
+            string parameter = HawkNet.Hawk.GetAuthorizationHeader(
                 httpClient.BaseAddress.DnsSafeHost,
                 method.ToString().ToUpperInvariant(),
-                new Uri(httpClient.BaseAddress, requestUri), 
+                new Uri(httpClient.BaseAddress, requestUri),
                 credential,
                 payloadHash: HawkNet.Hawk.CalculatePayloadHash(jsonPayload, "application/json", credential));
+
+            return new AuthenticationHeaderValue("Hawk", parameter);
+        }
+
+        private AuthenticationHeaderValue GetBrowserIdAuthenticationHeader(string assertion)
+        {
+            return new AuthenticationHeaderValue("BrowserID", assertion);
         }
     }
 }

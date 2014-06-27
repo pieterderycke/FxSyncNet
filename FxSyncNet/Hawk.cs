@@ -23,7 +23,7 @@ namespace HawkNet
     /// Hawk main class. It provides methods for generating a Hawk authorization header on the client side and authenticate it on the
     /// service side.
     /// </summary>
-    public static class Hawk
+    internal static class Hawk
     {
         readonly static string[] RequiredAttributes = { "id", "ts", "mac", "nonce" };
         readonly static string[] OptionalAttributes = { "ext", "hash" };
