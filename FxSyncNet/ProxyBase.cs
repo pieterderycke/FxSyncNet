@@ -29,43 +29,41 @@ namespace FxSyncNet
         protected Task<TResponse> Get<TResponse>(string requestUri, HawkNet.HawkCredential credential)
         {
             AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, credential);
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null);
+            return Task.Run(() => (TResponse)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null));
         }
 
         protected Task<TResponse> Get<TResponse>(string requestUri, string assertion, string clientState)
         {
             AuthenticationHeaderValue authenticationHeader = GetBrowserIdAuthenticationHeader(assertion);
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, clientState);
+            return Task.Run(() => (TResponse)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, clientState));
         }
 
         protected Task<TResponse> Get<TResponse>(string requestUri, string token, string context, int size)
         {
             AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, token, context, size);
-            return (Task<TResponse>)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null);
+            return Task.Run(() => (TResponse)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null));
         }
 
         protected Task Get(string requestUri, string token, string context, int size)
         {
             AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, token, context, size);
-            return Execute(HttpMethod.Get, requestUri, null, null, authenticationHeader, null);
+            return Task.Run(() => Execute(HttpMethod.Get, requestUri, null, null, authenticationHeader, null));
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request)
         {
             string jsonPayload = GetJsonPayload(request);
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), null, null);
+            return Task.Run(() => (TResponse)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), null, null));
         }
 
         protected Task<TResponse> Post<TRequest, TResponse>(string requestUri, TRequest request, string token, string context, int size)
         {
             string jsonPayload = GetJsonPayload(request);
             AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Post, requestUri, jsonPayload, token, context, size);
-            return (Task<TResponse>)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), authenticationHeader, null);
+            return Task.Run(() => (TResponse)Execute(HttpMethod.Post, requestUri, jsonPayload, typeof(TResponse), authenticationHeader, null));
         }
 
-
-        // TODO: improve with relfection.emit/Expression Trees to provide better async performance
-        private Task Execute(HttpMethod method, string requestUri, string jsonPayload, Type responseType, AuthenticationHeaderValue authenticationHeader, string clientState)
+        private object Execute(HttpMethod method, string requestUri, string jsonPayload, Type responseType, AuthenticationHeaderValue authenticationHeader, string clientState)
         {
             HttpRequestMessage requestMessage = new HttpRequestMessage(method, requestUri);
             
@@ -86,15 +84,11 @@ namespace FxSyncNet
                 if(responseType != null)
                 {
                     string data = response.Content.ReadAsStringAsync().Result;
-                    
-                    MethodInfo fromResult = typeof(Task).GetMethod("FromResult").MakeGenericMethod(responseType);
-                    Task task = (Task)fromResult.Invoke(null, new object[] { JsonConvert.DeserializeObject(data, responseType) });
-
-                    return task;
+                    return JsonConvert.DeserializeObject(data, responseType);
                 }
                 else
                 {
-                    return Task.Run(() => { });
+                    return null;
                 }
             }
             else
