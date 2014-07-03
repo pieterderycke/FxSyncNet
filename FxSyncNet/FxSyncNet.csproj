@@ -59,18 +59,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountClient.cs" />
-    <Compile Include="ApiModels\BasicStorageObject.cs" />
-    <Compile Include="ApiModels\Bookmark.cs" />
-    <Compile Include="ApiModels\CertificateSignRequest.cs" />
-    <Compile Include="ApiModels\CertificateSignResponse.cs" />
-    <Compile Include="ApiModels\CryptoKeys.cs" />
-    <Compile Include="ApiModels\EncryptedPayload.cs" />
-    <Compile Include="ApiModels\DevicesResponse.cs" />
-    <Compile Include="ApiModels\KeysResponse.cs" />
-    <Compile Include="ApiModels\LoginRequest.cs" />
-    <Compile Include="ApiModels\LoginResponse.cs" />
-    <Compile Include="ApiModels\PublicKey.cs" />
-    <Compile Include="ApiModels\TokenResponse.cs" />
+    <Compile Include="Models\BasicStorageObject.cs" />
+    <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\CertificateSignRequest.cs" />
+    <Compile Include="Models\CertificateSignResponse.cs" />
+    <Compile Include="Models\CryptoKeys.cs" />
+    <Compile Include="Models\EncryptedPayload.cs" />
+    <Compile Include="Models\DevicesResponse.cs" />
+    <Compile Include="Models\KeysResponse.cs" />
+    <Compile Include="Models\LoginRequest.cs" />
+    <Compile Include="Models\LoginResponse.cs" />
+    <Compile Include="Models\PublicKey.cs" />
+    <Compile Include="Models\TokenResponse.cs" />
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="BundleKeys.cs" />
     <Compile Include="Credentials.cs" />
