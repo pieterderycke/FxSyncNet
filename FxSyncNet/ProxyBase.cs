@@ -44,6 +44,12 @@ namespace FxSyncNet
             return Task.Run(() => (TResponse)Execute(HttpMethod.Get, requestUri, null, typeof(TResponse), authenticationHeader, null));
         }
 
+        protected Task Get(string requestUri, HawkNet.HawkCredential credential)
+        {
+            AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, credential);
+            return Task.Run(() => Execute(HttpMethod.Get, requestUri, null, null, authenticationHeader, null));
+        }
+
         protected Task Get(string requestUri, string token, string context, int size)
         {
             AuthenticationHeaderValue authenticationHeader = GetHawkAuthenticationHeader(HttpMethod.Get, requestUri, null, token, context, size);

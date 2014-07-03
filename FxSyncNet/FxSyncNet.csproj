@@ -59,8 +59,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountClient.cs" />
+    <Compile Include="ApiModels\BasicStorageObject.cs" />
+    <Compile Include="ApiModels\Bookmark.cs" />
     <Compile Include="ApiModels\CertificateSignRequest.cs" />
     <Compile Include="ApiModels\CertificateSignResponse.cs" />
+    <Compile Include="ApiModels\CryptoKeys.cs" />
+    <Compile Include="ApiModels\EncryptedPayload.cs" />
     <Compile Include="ApiModels\DevicesResponse.cs" />
     <Compile Include="ApiModels\KeysResponse.cs" />
     <Compile Include="ApiModels\LoginRequest.cs" />
@@ -70,6 +74,7 @@
     <Compile Include="AuthenticationMethod.cs" />
     <Compile Include="BundleKeys.cs" />
     <Compile Include="Credentials.cs" />
+    <Compile Include="Crypto.cs" />
     <Compile Include="Hawk.cs" />
     <Compile Include="HawkCredential.cs" />
     <Compile Include="HKDF.cs" />
@@ -79,6 +84,7 @@
     <Compile Include="ProxyBase.cs" />
     <Compile Include="ServiceNotAvailableException.cs" />
     <Compile Include="StorageClient.cs" />
+    <Compile Include="SyncKeys.cs" />
     <Compile Include="TokenClient.cs" />
     <Compile Include="Util.cs" />
   </ItemGroup>
