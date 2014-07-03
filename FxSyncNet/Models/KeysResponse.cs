@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FxSyncNet.ApiModels
+namespace FxSyncNet.Models
 {
     public class KeysResponse
     {

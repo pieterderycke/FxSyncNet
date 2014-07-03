@@ -1,4 +1,4 @@
-﻿using FxSyncNet.ApiModels;
+﻿using FxSyncNet.Models;
 using Newtonsoft.Json;
 using RFC5869;
 using System;

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using FxSyncNet.ApiModels;
+using FxSyncNet.Models;
 using System.Security.Cryptography;
 using System.Numerics;
 

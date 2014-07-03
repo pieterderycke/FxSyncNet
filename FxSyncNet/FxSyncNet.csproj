@@ -84,6 +84,7 @@
     <Compile Include="ProxyBase.cs" />
     <Compile Include="ServiceNotAvailableException.cs" />
     <Compile Include="StorageClient.cs" />
+    <Compile Include="SyncClient.cs" />
     <Compile Include="SyncKeys.cs" />
     <Compile Include="TokenClient.cs" />
     <Compile Include="Util.cs" />

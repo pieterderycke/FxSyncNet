@@ -8,7 +8,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FxSyncNet.ApiModels
+namespace FxSyncNet.Models
 {
     [DataContract]
     public class LoginRequest
