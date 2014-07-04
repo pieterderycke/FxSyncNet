@@ -68,5 +68,14 @@ namespace FxSyncNet
             IEnumerable<BasicStorageObject> collection = await storageClient.GetCollection("bookmarks", true);
             return Crypto.DecryptWbos<Bookmark>(collectionKeys, collection);
         }
+
+        public async Task<IEnumerable<Tab>> GetTabs()
+        {
+            if (storageClient == null || collectionKeys == null)
+                throw new InvalidOperationException("Please make sure you are correctly logged in to the sync service.");
+
+            IEnumerable<BasicStorageObject> collection = await storageClient.GetCollection("tabs", true);
+            return Crypto.DecryptWbos<Tab>(collectionKeys, collection);
+        }
     }
 }

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxSyncNet", "FxSyncNet\FxSy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxSyncNet.Tests", "FxSyncNet.Tests\FxSyncNet.Tests.csproj", "{7FCB16F4-5EF0-46A5-BCB3-2EE5A8B0BC7F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FxSyncNet.DemoClient", "FxSyncNet.DemoClient\FxSyncNet.DemoClient.csproj", "{4896E0FB-810F-468F-9895-D248C1CAAAD3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{7FCB16F4-5EF0-46A5-BCB3-2EE5A8B0BC7F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7FCB16F4-5EF0-46A5-BCB3-2EE5A8B0BC7F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7FCB16F4-5EF0-46A5-BCB3-2EE5A8B0BC7F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4896E0FB-810F-468F-9895-D248C1CAAAD3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4896E0FB-810F-468F-9895-D248C1CAAAD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4896E0FB-810F-468F-9895-D248C1CAAAD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4896E0FB-810F-468F-9895-D248C1CAAAD3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
