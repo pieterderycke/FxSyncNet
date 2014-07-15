@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Models;
-using System.Security.Cryptography;
 using System.Numerics;
+using FxSyncNet.Security;
 
 namespace FxSyncNet
 {

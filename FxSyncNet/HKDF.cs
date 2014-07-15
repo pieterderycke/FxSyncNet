@@ -1,5 +1,5 @@
 ﻿using System;
-using System.Security.Cryptography;
+using FxSyncNet.Security;
 
 namespace RFC5869
 {

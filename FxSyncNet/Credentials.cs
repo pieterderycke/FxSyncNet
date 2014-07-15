@@ -3,9 +3,9 @@ using RFC5869;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
+using FxSyncNet.Security;
 
 namespace FxSyncNet
 {
@@ -25,7 +25,7 @@ namespace FxSyncNet
                 UnwrapBKey = hkdf.Expand(Util.Kw("unwrapBkey"), 32);
             }
 
-            using(SHA256 sha256 = SHA256.Create())
+            using(SHA256 sha256 = new SHA256())
             {
                 byte[] hash = sha256.ComputeHash(UnwrapBKey);
                 SyncClientState = Util.ToHexString(hash.Take(16).ToArray());

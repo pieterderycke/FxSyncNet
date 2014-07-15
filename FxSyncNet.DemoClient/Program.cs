@@ -16,7 +16,7 @@ namespace FxSyncNet.DemoClient
             string email = Console.ReadLine();
 
             Console.Write("Password: ");
-            string password = Console.ReadLine();
+            string password = ReadPassword();
 
             SyncClient syncClient = new SyncClient();
             syncClient.SignIn(email, password).Wait();
@@ -35,5 +35,47 @@ namespace FxSyncNet.DemoClient
             Console.WriteLine("Press enter to exit...");
             Console.ReadLine();
         }
+
+        private static string ReadPassword()
+        {
+            StringBuilder password = new StringBuilder();
+
+            ConsoleKeyInfo info = Console.ReadKey(true);
+            while (info.Key != ConsoleKey.Enter)
+            {
+                if (info.Key != ConsoleKey.Backspace)
+                {
+                    Console.Write("*");
+                    password.Append(info.KeyChar);
+                }
+                else if (info.Key == ConsoleKey.Backspace)
+                {
+                    if (password.Length != 0)
+                    {
+                        // remove one character from the list of password characters
+                        password = password.Remove(password.Length - 1, 1);
+
+                        // get the location of the cursor
+                        int pos = Console.CursorLeft;
+
+                        // move the cursor to the left by one character
+                        Console.SetCursorPosition(pos - 1, Console.CursorTop);
+
+                        // replace it with space
+                        Console.Write(" ");
+
+                        // move the cursor to the left by one character again
+                        Console.SetCursorPosition(pos - 1, Console.CursorTop);
+                    }
+                }
+
+                info = Console.ReadKey(true);
+            }
+
+            // add a new line because user pressed enter at the end of their password
+            Console.WriteLine();
+            return password.ToString();
+        }
+
     }
 }

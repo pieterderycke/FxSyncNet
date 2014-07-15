@@ -1,0 +1,180 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <MinimumVisualStudioVersion>12.0</MinimumVisualStudioVersion>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{371F0626-17E9-46E2-9CF9-46BBAC470D48}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>FxSyncNet</RootNamespace>
+    <AssemblyName>FxSyncNet</AssemblyName>
+    <DefaultLanguage>en-US</DefaultLanguage>
+    <FileAlignment>512</FileAlignment>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile32</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;WINDOWS_STORE,</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <TargetPlatform Include="WindowsPhoneApp, Version=8.1" />
+    <TargetPlatform Include="Windows, Version=8.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\FxSyncNet\AccountClient.cs">
+      <Link>AccountClient.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\AuthenticationMethod.cs">
+      <Link>AuthenticationMethod.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\BundleKeys.cs">
+      <Link>BundleKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Credentials.cs">
+      <Link>Credentials.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Crypto.cs">
+      <Link>Crypto.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Hawk.cs">
+      <Link>Hawk.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\HawkCredential.cs">
+      <Link>HawkCredential.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\HKDF.cs">
+      <Link>HKDF.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\JwtCrypto.cs">
+      <Link>JwtCrypto.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\BasicStorageObject.cs">
+      <Link>Models\BasicStorageObject.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\Bookmark.cs">
+      <Link>Models\Bookmark.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\CertificateSignRequest.cs">
+      <Link>Models\CertificateSignRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\CertificateSignResponse.cs">
+      <Link>Models\CertificateSignResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\CryptoKeys.cs">
+      <Link>Models\CryptoKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\DevicesResponse.cs">
+      <Link>Models\DevicesResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\EncryptedPayload.cs">
+      <Link>Models\EncryptedPayload.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\KeysResponse.cs">
+      <Link>Models\KeysResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\LoginRequest.cs">
+      <Link>Models\LoginRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\LoginResponse.cs">
+      <Link>Models\LoginResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\PublicKey.cs">
+      <Link>Models\PublicKey.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\Tab.cs">
+      <Link>Models\Tab.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\TokenResponse.cs">
+      <Link>Models\TokenResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Pbkdf2.cs">
+      <Link>Pbkdf2.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\ProxyBase.cs">
+      <Link>ProxyBase.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\Aes.cs">
+      <Link>Security\Aes.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\BCryptRsaKeyBlob.cs">
+      <Link>Security\BCryptRsaKeyBlob.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\HashAlgorithm.cs">
+      <Link>Security\HashAlgorithm.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\HMAC.cs">
+      <Link>Security\HMAC.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\HMACSHA256.cs">
+      <Link>Security\HMACSHA256.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\RSACryptoServiceProvider.cs">
+      <Link>Security\RSACryptoServiceProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\RSAParameters.cs">
+      <Link>Security\RSAParameters.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Security\SHA256.cs">
+      <Link>Security\SHA256.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\ServiceNotAvailableException.cs">
+      <Link>ServiceNotAvailableException.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\StorageClient.cs">
+      <Link>StorageClient.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\SyncClient.cs">
+      <Link>SyncClient.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\SyncKeys.cs">
+      <Link>SyncKeys.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\TokenClient.cs">
+      <Link>TokenClient.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Util.cs">
+      <Link>Util.cs</Link>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="JWT.Universal">
+      <HintPath>..\..\..\..\..\..\Temp\jose-jwt-master\jose-jwt-master\JWT.Universal\bin\Debug\JWT.Universal.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

@@ -4,8 +4,8 @@
 
 
 using System;
-using System.Security.Cryptography;
 using System.Text;
+using FxSyncNet.Security;
 
 namespace Medo.Security.Cryptography {
 
