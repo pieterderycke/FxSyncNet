@@ -28,7 +28,7 @@ namespace FxSyncNet.Security
         public byte[] Decrypt(byte[] buffer)
         {
 #if WINDOWS_STORE
-            SymmetricKeyAlgorithmProvider provider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbc);
+            SymmetricKeyAlgorithmProvider provider = SymmetricKeyAlgorithmProvider.OpenAlgorithm(SymmetricAlgorithmNames.AesCbcPkcs7);
             CryptographicKey aes = provider.CreateSymmetricKey(CryptographicBuffer.CreateFromByteArray(this.key));
             IBuffer result = CryptographicEngine.Decrypt(aes, CryptographicBuffer.CreateFromByteArray(buffer), CryptographicBuffer.CreateFromByteArray(this.iv));
 

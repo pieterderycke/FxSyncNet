@@ -51,6 +51,9 @@
     <Compile Include="..\FxSyncNet\AuthenticationMethod.cs">
       <Link>AuthenticationMethod.cs</Link>
     </Compile>
+    <Compile Include="..\FxSyncNet\BinaryReaderExtensions.cs">
+      <Link>BinaryReaderExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\FxSyncNet\BundleKeys.cs">
       <Link>BundleKeys.cs</Link>
     </Compile>
@@ -162,12 +165,15 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Reference Include="JWT.Universal">
-      <HintPath>..\..\..\..\..\..\Temp\jose-jwt-master\jose-jwt-master\JWT.Universal\bin\Debug\JWT.Universal.dll</HintPath>
-    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.3\lib\portable-net45+wp80+win8+wpa81\Newtonsoft.Json.dll</HintPath>
     </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\JWT.Universal\JWT.Universal.csproj">
+      <Project>{46b4affb-06cc-4a48-a45d-f0114c39564f}</Project>
+      <Name>JWT.Universal</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

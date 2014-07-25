@@ -11,12 +11,12 @@ namespace FxSyncNet.Security
     [StructLayout(LayoutKind.Sequential)]
     public struct BCryptRsaKeyBlob
     {
-        public ulong Magic;
-        public ulong BitLength;
-        public ulong cbPublicExp;
-        public ulong cbModulus;
-        public ulong cbPrime1;
-        public ulong cbPrime2;
+        public uint Magic;
+        public uint BitLength;
+        public uint cbPublicExp;
+        public uint cbModulus;
+        public uint cbPrime1;
+        public uint cbPrime2;
 
         public static BCryptRsaKeyBlob Load(byte[] buffer)
         {
@@ -24,12 +24,12 @@ namespace FxSyncNet.Security
 
             using(BinaryReader reader = new BinaryReader(new MemoryStream(buffer)))
             {
-                result.Magic = reader.ReadUInt64();
-                result.BitLength = reader.ReadUInt64();
-                result.cbPublicExp = reader.ReadUInt64();
-                result.cbModulus = reader.ReadUInt64();
-                result.cbPrime1 = reader.ReadUInt64();
-                result.cbPrime2 = reader.ReadUInt64();
+                result.Magic = reader.ReadUInt32();
+                result.BitLength = reader.ReadUInt32();
+                result.cbPublicExp = reader.ReadUInt32();
+                result.cbModulus = reader.ReadUInt32();
+                result.cbPrime1 = reader.ReadUInt32();
+                result.cbPrime2 = reader.ReadUInt32();
             }
 
             return result;

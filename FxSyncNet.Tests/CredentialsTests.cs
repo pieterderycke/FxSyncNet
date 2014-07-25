@@ -1,8 +1,13 @@
 ﻿using System;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.Text;
-using System.Security.Cryptography;
 using System.Linq;
+using FxSyncNet.Security;
+
+#if WINDOWS_STORE
+using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
+#else
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+#endif
 
 namespace FxSyncNet.Tests
 {
@@ -12,14 +17,14 @@ namespace FxSyncNet.Tests
         [TestMethod]
         public void TestClientStretchKdfVector()
         {
-            string email = Encoding.UTF8.GetString(Util.FromHexString("616e6472c3a9406578616d706c652e6f7267"));
-            string password = Encoding.UTF8.GetString(Util.FromHexString("70c3a4737377c3b67264"));
+            string email = GetUTF8String("616e6472c3a9406578616d706c652e6f7267");
+            string password = GetUTF8String("70c3a4737377c3b67264");
 
             Credentials credentials = new Credentials(email, password);
 
-            Assert.AreEqual("E4E8889BD8BD61AD6DE6B95C059D56E7B50DACDAF62BD84644AF7E2ADD84345D", Util.ToHexString(credentials.QuickStretchedPW));
-            Assert.AreEqual("247B675FFB4C46310BC87E26D712153ABE5E1C90EF00A4784594F97EF54F2375", Util.ToHexString(credentials.AuthPW));
-            Assert.AreEqual("DE6A2648B78284FCB9FFA81BA95803309CFBA7AF583C01A8A1A63E567234DD28", Util.ToHexString(credentials.UnwrapBKey));
+            Assert.AreEqual("e4e8889bd8bd61ad6de6b95c059d56e7b50dacdaf62bd84644af7e2add84345d", Util.ToHexString(credentials.QuickStretchedPW));
+            Assert.AreEqual("247b675ffb4c46310bc87e26d712153abe5e1c90ef00a4784594f97ef54f2375", Util.ToHexString(credentials.AuthPW));
+            Assert.AreEqual("de6a2648b78284fcb9ffa81ba95803309cfba7af583c01a8a1a63e567234dd28", Util.ToHexString(credentials.UnwrapBKey));
         }
 
         [TestMethod]
@@ -27,12 +32,12 @@ namespace FxSyncNet.Tests
         {
             byte[] unwrapBKey = Util.FromHexString("6b813696a1f83a87e41506b7f33b991b985f3d6e0c934f867544e711882c179c");
 
-            SHA256 sha256 = SHA256.Create();
+            HashAlgorithm sha256 = HashAlgorithm.Create("sha256");
             byte[] hash = sha256.ComputeHash(unwrapBKey);
 
             string clientState = Util.ToHexString(hash.Take(16).ToArray());
 
-            Assert.AreEqual("630B070CDD4369880A82762436C5399D", clientState);
+            Assert.AreEqual("630b070cdd4369880a82762436c5399d", clientState);
         }
 
         [TestMethod]
@@ -43,7 +48,7 @@ namespace FxSyncNet.Tests
 
             byte[] wrapKB = Credentials.UnbundleKeyFetchResponse(key, bundle);
 
-            Assert.AreEqual("AA8B863D6332AD16E95C5C333C106A00E26A6CAEBDB4E4F80798AC8344C87DA9", Util.ToHexString(wrapKB));
+            Assert.AreEqual("aa8b863d6332ad16e95c5c333c106a00e26a6caebdb4e4f80798ac8344c87da9", Util.ToHexString(wrapKB));
         }
 
         [TestMethod]
@@ -53,7 +58,13 @@ namespace FxSyncNet.Tests
 
             byte[] bundleKey = Credentials.DeriveHawkCredentials(token, "keyFetchToken");
 
-            Assert.AreEqual("57E1AD522D8DF76322BA6FBCAC96A60420F6645C20B7396AA4981049AE262D80", Util.ToHexString(bundleKey));
+            Assert.AreEqual("57e1ad522d8df76322ba6fbcac96a60420f6645c20b7396aa4981049ae262d80", Util.ToHexString(bundleKey));
+        }
+
+        private string GetUTF8String(string hexString)
+        {
+            byte[] buffer = Util.FromHexString(hexString);
+            return Encoding.UTF8.GetString(buffer, 0, buffer.Length);
         }
     }
 }

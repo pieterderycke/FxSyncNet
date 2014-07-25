@@ -18,7 +18,7 @@ namespace FxSyncNet.Security
     {
 #if WINDOWS_STORE
         private readonly string algorithmName;
-        private readonly byte[] key;
+        private byte[] key;
         private readonly int hashSize;
 #else
         private System.Security.Cryptography.HMAC hmac;
@@ -26,11 +26,11 @@ namespace FxSyncNet.Security
 
         public HMAC(string algorithmName)
         {
-            if (algorithmName != "HMACSHA256")
+            if (!algorithmName.Equals("HMACSHA256", StringComparison.CurrentCultureIgnoreCase))
                 throw new ArgumentException(string.Format("Unsupported algorihtm \"{0}\".", algorithmName), "algorithmName");
 
 #if WINDOWS_STORE
-            this.algorithmName = algorithmName;
+            this.algorithmName = MacAlgorithmNames.HmacSha256;
             this.hashSize = 256;
 #else
             this.hmac = System.Security.Cryptography.HMAC.Create(algorithmName);
@@ -59,6 +59,7 @@ namespace FxSyncNet.Security
             set 
             { 
 #if WINDOWS_STORE
+                key = value;
 #else
                 hmac.Key = value; 
 #endif
@@ -86,13 +87,19 @@ namespace FxSyncNet.Security
         {
 #if WINDOWS_STORE
             MacAlgorithmProvider provider = MacAlgorithmProvider.OpenAlgorithm(algorithmName);
-            CryptographicHash result = provider.CreateHash(CryptographicBuffer.CreateFromByteArray(Key));
-            result.Append(CryptographicBuffer.CreateFromByteArray(buffer));
-            
-            byte[] hash;
-            CryptographicBuffer.CopyToByteArray(result.GetValueAndReset(), out hash);
 
-            return hash;
+            CryptographicKey hmacKey;
+            if (Key != null)
+                hmacKey = provider.CreateKey(CryptographicBuffer.CreateFromByteArray(Key));
+            else
+                hmacKey = provider.CreateKey(CryptographicBuffer.GenerateRandom(provider.MacLength));
+
+            IBuffer hmacValue = CryptographicEngine.Sign(hmacKey, CryptographicBuffer.CreateFromByteArray(buffer));
+            
+            byte[] result;
+            CryptographicBuffer.CopyToByteArray(hmacValue, out result);
+
+            return result;
 #else
             return hmac.ComputeHash(buffer, offset, count);
 #endif

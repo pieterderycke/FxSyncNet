@@ -65,6 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountClient.cs" />
+    <Compile Include="BinaryReaderExtensions.cs" />
     <Compile Include="Models\BasicStorageObject.cs" />
     <Compile Include="Models\Bookmark.cs" />
     <Compile Include="Models\CertificateSignRequest.cs" />

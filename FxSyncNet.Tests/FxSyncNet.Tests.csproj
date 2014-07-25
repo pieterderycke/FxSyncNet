@@ -50,8 +50,11 @@
     </Otherwise>
   </Choose>
   <ItemGroup>
+    <Compile Include="AesTests.cs" />
     <Compile Include="CredentialsTests.cs" />
+    <Compile Include="HMACSHA256Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SHA256Tests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\FxSyncNet\FxSyncNet.csproj">
