@@ -33,7 +33,6 @@ namespace FxSyncNet
 
             //JwtSecurityTokenHandler tokenHandler = new JwtSecurityTokenHandler();
             //return tokenHandler.WriteToken(token);
-            return null;
         }
 
         public static string Bundle(string jwtToken, string jsonWebCertificate)
