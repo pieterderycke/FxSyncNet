@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>FxSyncNet</id>
+    <version>$version$</version>
+    <title>FxSyncNet</title>
+    <authors>Pieter De Rycke</authors>
+    <licenseUrl>https://github.com/pieterderycke/fxsyncnet/blob/master/LICENSE.md</licenseUrl>
+    <projectUrl>https://github.com/pieterderycke/fxsyncnet</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+		FxSyncNet is a client API for the Mozilla Sync Service. It supports the new Firefox 30 Authentication protocol.
+	</description>
+	<summary>
+		FxSyncNet is a client API for the Mozilla Sync Service. It supports the new Firefox 30 Authentication protocol.
+	</summary>
+	<tags>Firefox Sync</tags>
+	<dependencies>
+		<group targetFramework="net45"> 
+			<dependency id="jose-jwt" version="1.6.0" />
+		</group>	
+		<group>
+			<dependency id="Newtonsoft.Json" version="6.0.3" />
+			<dependency id="Microsoft.Net.Http" version="2.2.22" />
+		</group>
+	</dependencies>
+  </metadata>
+</package>
