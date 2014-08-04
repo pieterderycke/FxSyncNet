@@ -10,6 +10,8 @@ namespace FxSyncNet
 {
     public class SyncClient
     {
+        private bool isSignedIn;
+
         private SyncKeys collectionKeys;
 
         private StorageClient storageClient;
@@ -17,6 +19,8 @@ namespace FxSyncNet
         public SyncClient()
         {
         }
+
+        public bool IsSignedIn { get { return isSignedIn; } }
 
         public async Task SignIn(string email, string password)
         {
@@ -58,10 +62,15 @@ namespace FxSyncNet
 
             SyncKeys syncKeys = Crypto.DeriveKeys(kB);
             collectionKeys = Crypto.DecryptCollectionKeys(syncKeys, cryptoKeys);
+
+            isSignedIn = true;
         }
 
         public async Task<IEnumerable<Bookmark>> GetBookmarks()
         {
+            if (!isSignedIn)
+                throw new InvalidOperationException("Please sign in first.");
+
             if (storageClient == null || collectionKeys == null)
                 throw new InvalidOperationException("Please make sure you are correctly logged in to the sync service.");
 
@@ -71,6 +80,9 @@ namespace FxSyncNet
 
         public async Task<IEnumerable<Tab>> GetTabs()
         {
+            if (!isSignedIn)
+                throw new InvalidOperationException("Please sign in first.");
+
             if (storageClient == null || collectionKeys == null)
                 throw new InvalidOperationException("Please make sure you are correctly logged in to the sync service.");
 

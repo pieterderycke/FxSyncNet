@@ -1,4 +1,4 @@
-SET version="0.1"
+SET version="0.1.1"
 
 msbuild /p:Configuration=Release FxSyncNet\FxSyncNet.csproj
 MKDIR nuget\lib\net45
