@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using FxSyncNet.Util;
 
 #if WINDOWS_STORE
 using Microsoft.VisualStudio.TestPlatform.UnitTestFramework;
@@ -22,7 +23,7 @@ namespace FxSyncNet.Tests
             SHA256 sha256 = new SHA256();
             byte[] hash = sha256.ComputeHash(Encoding.UTF8.GetBytes("TestBufer"));
 
-            Assert.AreEqual("35c31cc5553afe41b319d088523f90edecfe5435420bf57f1c939e14db105c3f", Util.ToHexString(hash));
+            Assert.AreEqual("35c31cc5553afe41b319d088523f90edecfe5435420bf57f1c939e14db105c3f", BinaryHelper.ToHexString(hash));
         }
     }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace FxSyncNet
 {
@@ -24,6 +25,8 @@ namespace FxSyncNet
 
         public async Task SignIn(string email, string password)
         {
+            SignOut();
+
             Credentials credentials = new Credentials(email, password);
 
             AccountClient account = new AccountClient();
@@ -31,7 +34,7 @@ namespace FxSyncNet
 
             KeysResponse keysResponse = await account.Keys(response.KeyFetchToken);
 
-            string key = Util.ToHexString(Credentials.DeriveHawkCredentials(response.KeyFetchToken, "keyFetchToken"));
+            string key = BinaryHelper.ToHexString(Credentials.DeriveHawkCredentials(response.KeyFetchToken, "keyFetchToken"));
 
             byte[] wrapKB = Credentials.UnbundleKeyFetchResponse(key, keysResponse.Bundle);
 
@@ -44,13 +47,13 @@ namespace FxSyncNet
             string jwtToken = JwtCrypto.GetJwtToken(rsa);
             string assertion = JwtCrypto.Bundle(jwtToken, certificate.Certificate);
 
-            byte[] kB = Util.Xor(wrapKB, credentials.UnwrapBKey);
+            byte[] kB = BinaryHelper.Xor(wrapKB, credentials.UnwrapBKey);
 
             string syncClientState;
             using (SHA256 sha256 = new SHA256())
             {
                 byte[] hash = sha256.ComputeHash(kB);
-                syncClientState = Util.ToHexString(hash.Take(16).ToArray());
+                syncClientState = BinaryHelper.ToHexString(hash.Take(16).ToArray());
             }
 
             TokenClient tokenClient = new TokenClient();
@@ -66,6 +69,13 @@ namespace FxSyncNet
             isSignedIn = true;
         }
 
+        public void SignOut()
+        {
+            isSignedIn = false;
+            collectionKeys = null;
+            storageClient = null;
+        }
+
         public async Task<IEnumerable<Bookmark>> GetBookmarks()
         {
             if (!isSignedIn)
@@ -78,7 +88,7 @@ namespace FxSyncNet
             return Crypto.DecryptWbos<Bookmark>(collectionKeys, collection);
         }
 
-        public async Task<IEnumerable<Tab>> GetTabs()
+        public async Task<IEnumerable<Client>> GetTabs()
         {
             if (!isSignedIn)
                 throw new InvalidOperationException("Please sign in first.");
@@ -87,7 +97,7 @@ namespace FxSyncNet
                 throw new InvalidOperationException("Please make sure you are correctly logged in to the sync service.");
 
             IEnumerable<BasicStorageObject> collection = await storageClient.GetCollection("tabs", true);
-            return Crypto.DecryptWbos<Tab>(collectionKeys, collection);
+            return Crypto.DecryptWbos<Client>(collectionKeys, collection);
         }
     }
 }

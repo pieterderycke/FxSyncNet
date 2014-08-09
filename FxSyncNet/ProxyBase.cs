@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace FxSyncNet
 {
@@ -120,10 +121,10 @@ namespace FxSyncNet
 
             using (var hmac = new HMACSHA256())
             {
-                HKDF hkdf = new HKDF(hmac, Util.FromHexString(token));
-                byte[] sessionToken = hkdf.Expand(Util.Kw(context), size);
+                HKDF hkdf = new HKDF(hmac, BinaryHelper.FromHexString(token));
+                byte[] sessionToken = hkdf.Expand(BinaryHelper.Kw(context), size);
 
-                string buffer = Util.ToHexString(sessionToken);
+                string buffer = BinaryHelper.ToHexString(sessionToken);
 
                 tokenId = buffer.Substring(0, 64);
                 reqHMACkey = buffer.Substring(64, 64);

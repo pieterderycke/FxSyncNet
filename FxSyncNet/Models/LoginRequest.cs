@@ -1,4 +1,5 @@
-﻿using Medo.Security.Cryptography;
+﻿using FxSyncNet.Util;
+using Medo.Security.Cryptography;
 using RFC5869;
 using System;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace FxSyncNet.Models
         public LoginRequest(Credentials credentials)
         {
             this.Email = credentials.Email;
-            this.AuthPW = Util.ToHexString(credentials.AuthPW);
+            this.AuthPW = BinaryHelper.ToHexString(credentials.AuthPW);
         }
 
         [DataMember(Name="email")]

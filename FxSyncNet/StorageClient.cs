@@ -1,4 +1,5 @@
 ﻿using FxSyncNet.Models;
+using FxSyncNet.Util;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace FxSyncNet
 
         public StorageClient(string apiEndpoint, string key, string id) : base (apiEndpoint + "/")
         {
-            credential = new HawkNet.HawkCredential() { Algorithm = "sha256", Id = id, Key = Util.ToHexString(Encoding.UTF8.GetBytes(key)) };
+            credential = new HawkNet.HawkCredential() { Algorithm = "sha256", Id = id, Key = BinaryHelper.ToHexString(Encoding.UTF8.GetBytes(key)) };
         }
 
         public async Task GetQuotaInfo()

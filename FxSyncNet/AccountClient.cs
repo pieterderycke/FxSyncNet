@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FxSyncNet.Models;
 using System.Numerics;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace FxSyncNet
 {
@@ -44,8 +45,8 @@ namespace FxSyncNet
         {
             RSAParameters keyInfo = rsa.ExportParameters(false);
 
-            string n = Util.BigIntegerFromBigEndian(keyInfo.Modulus).ToString();
-            string e = Util.BigIntegerFromBigEndian(keyInfo.Exponent).ToString();
+            string n = BinaryHelper.BigIntegerFromBigEndian(keyInfo.Modulus).ToString();
+            string e = BinaryHelper.BigIntegerFromBigEndian(keyInfo.Exponent).ToString();
 
             CertificateSignRequest signRequest = new CertificateSignRequest();
             signRequest.PublicKey = new PublicKey() { Algorithm = "RS", E = e, N = n };

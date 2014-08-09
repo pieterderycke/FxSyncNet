@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Models;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace FxSyncNet
 {
@@ -14,7 +15,7 @@ namespace FxSyncNet
     {
         public static SyncKeys DeriveKeys(byte[] kB)
         {
-            byte[] info = Util.Kw("oldsync");
+            byte[] info = BinaryHelper.Kw("oldsync");
 
             HMAC hmac = new HMAC("HMACSHA256");
             HKDF hkdf = new HKDF(hmac, kB);
@@ -46,7 +47,7 @@ namespace FxSyncNet
             string computedHmac;
             HMAC hmac = new HMAC("HMACSHA256", syncKeys.HmacKey);
             byte[] ciphertext = Encoding.UTF8.GetBytes(payload.CipherText);
-            computedHmac = Util.ToHexString(hmac.ComputeHash(ciphertext));
+            computedHmac = BinaryHelper.ToHexString(hmac.ComputeHash(ciphertext));
 
             if (computedHmac != payload.Hmac)
                 throw new Exception(string.Format("The calculated HMAC is \"{0}\" does not match with the epected one \"{1}\".", computedHmac, payload.Hmac));

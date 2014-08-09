@@ -81,11 +81,17 @@
     <Compile Include="..\FxSyncNet\Models\Bookmark.cs">
       <Link>Models\Bookmark.cs</Link>
     </Compile>
+    <Compile Include="..\FxSyncNet\Models\BookmarkType.cs">
+      <Link>Models\BookmarkType.cs</Link>
+    </Compile>
     <Compile Include="..\FxSyncNet\Models\CertificateSignRequest.cs">
       <Link>Models\CertificateSignRequest.cs</Link>
     </Compile>
     <Compile Include="..\FxSyncNet\Models\CertificateSignResponse.cs">
       <Link>Models\CertificateSignResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\Client.cs">
+      <Link>Models\Client.cs</Link>
     </Compile>
     <Compile Include="..\FxSyncNet\Models\CryptoKeys.cs">
       <Link>Models\CryptoKeys.cs</Link>
@@ -159,8 +165,11 @@
     <Compile Include="..\FxSyncNet\TokenClient.cs">
       <Link>TokenClient.cs</Link>
     </Compile>
-    <Compile Include="..\FxSyncNet\Util.cs">
-      <Link>Util.cs</Link>
+    <Compile Include="..\FxSyncNet\Util\BinaryHelper.cs">
+      <Link>Util\BinaryHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Util\DateTimeJsonConverter.cs">
+      <Link>Util\DateTimeJsonConverter.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -175,6 +184,7 @@
       <Name>JWT.Universal</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

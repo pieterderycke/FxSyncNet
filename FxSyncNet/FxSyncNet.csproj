@@ -68,6 +68,7 @@
     <Compile Include="BinaryReaderExtensions.cs" />
     <Compile Include="Models\BasicStorageObject.cs" />
     <Compile Include="Models\Bookmark.cs" />
+    <Compile Include="Models\BookmarkType.cs" />
     <Compile Include="Models\CertificateSignRequest.cs" />
     <Compile Include="Models\CertificateSignResponse.cs" />
     <Compile Include="Models\CryptoKeys.cs" />
@@ -77,6 +78,7 @@
     <Compile Include="Models\LoginRequest.cs" />
     <Compile Include="Models\LoginResponse.cs" />
     <Compile Include="Models\PublicKey.cs" />
+    <Compile Include="Models\Client.cs" />
     <Compile Include="Models\Tab.cs" />
     <Compile Include="Models\TokenResponse.cs" />
     <Compile Include="AuthenticationMethod.cs" />
@@ -103,7 +105,8 @@
     <Compile Include="SyncClient.cs" />
     <Compile Include="SyncKeys.cs" />
     <Compile Include="TokenClient.cs" />
-    <Compile Include="Util.cs" />
+    <Compile Include="Util\BinaryHelper.cs" />
+    <Compile Include="Util\DateTimeJsonConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">

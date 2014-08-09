@@ -13,7 +13,7 @@ namespace FxSyncNet.Models
         [DataMember]
         public string Id { get; set; }
         [DataMember]
-        public string Type { get; set; }
+        public BookmarkType Type { get; set; }
         [DataMember]
         public string Title { get; set; }
         [DataMember]
@@ -28,6 +28,8 @@ namespace FxSyncNet.Models
         public string Description { get; set; }
         [DataMember]
         public bool LoadInSidebar { get; set; }
+        [DataMember]
+        public IEnumerable<string> Children { get; set; }
         [DataMember]
         public string ParentId { get; set; }
     }

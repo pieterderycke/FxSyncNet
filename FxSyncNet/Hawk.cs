@@ -9,6 +9,7 @@ using System.Text;
 using System.Diagnostics;
 using FxSyncNet;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace HawkNet
 {
@@ -121,7 +122,7 @@ namespace HawkNet
         public static string CalculateMac(string host, string method, Uri uri, string ext, string ts, string nonce, HawkCredential credential, string type, string payloadHash = null)
         {
             var hmac = new HMAC("hmac" + credential.Algorithm);
-            hmac.Key = Util.FromHexString(credential.Key);
+            hmac.Key = BinaryHelper.FromHexString(credential.Key);
 
             var sanitizedHost = (host.IndexOf(':') > 0) ?
                 host.Substring(0, host.IndexOf(':')) :

@@ -6,9 +6,9 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FxSyncNet
+namespace FxSyncNet.Util
 {
-    public static class Util
+    public static class BinaryHelper
     {
         public static byte[] Kw(string name)
         {

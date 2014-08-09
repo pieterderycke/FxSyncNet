@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Security;
+using FxSyncNet.Util;
 
 namespace FxSyncNet
 {
@@ -17,18 +18,18 @@ namespace FxSyncNet
 
             using (var hmac = new HMACSHA256())
             {
-                Pbkdf2 pbkdf2 = new Pbkdf2(hmac, Encoding.UTF8.GetBytes(password), Util.Kwe("quickStretch", email), 1000);
+                Pbkdf2 pbkdf2 = new Pbkdf2(hmac, Encoding.UTF8.GetBytes(password), BinaryHelper.Kwe("quickStretch", email), 1000);
                 QuickStretchedPW = pbkdf2.GetBytes(32);
 
                 HKDF hkdf = new HKDF(hmac, QuickStretchedPW);
-                AuthPW = hkdf.Expand(Util.Kw("authPW"), 32);
-                UnwrapBKey = hkdf.Expand(Util.Kw("unwrapBkey"), 32);
+                AuthPW = hkdf.Expand(BinaryHelper.Kw("authPW"), 32);
+                UnwrapBKey = hkdf.Expand(BinaryHelper.Kw("unwrapBkey"), 32);
             }
 
             using(SHA256 sha256 = new SHA256())
             {
                 byte[] hash = sha256.ComputeHash(UnwrapBKey);
-                SyncClientState = Util.ToHexString(hash.Take(16).ToArray());
+                SyncClientState = BinaryHelper.ToHexString(hash.Take(16).ToArray());
             }
         }
 
@@ -40,8 +41,8 @@ namespace FxSyncNet
 
         public static byte[] UnbundleKeyFetchResponse(string key, string bundleHex)
         {
-            byte[] bundle = Util.FromHexString(bundleHex); // bundle
-            byte[] bundleKey = Util.FromHexString(key); // key
+            byte[] bundle = BinaryHelper.FromHexString(bundleHex); // bundle
+            byte[] bundleKey = BinaryHelper.FromHexString(key); // key
 
             BundleKeys keys = DeriveBundleKeys(bundleKey, "account/keys");
 
@@ -50,11 +51,11 @@ namespace FxSyncNet
 
             using (var hmac = new HMACSHA256(keys.HmacKey))
             {
-                if (!Util.AreEqual(expectedHmac, hmac.ComputeHash(cipherText)))
+                if (!BinaryHelper.AreEqual(expectedHmac, hmac.ComputeHash(cipherText)))
                     throw new Exception("Bad HMac.");
             }
 
-            byte[] keyAWrapB = Util.Xor(bundle.Take(64).ToArray(), keys.XorKey);
+            byte[] keyAWrapB = BinaryHelper.Xor(bundle.Take(64).ToArray(), keys.XorKey);
             byte[] kA = keyAWrapB.Take(32).ToArray();
             byte[] wrapKB = keyAWrapB.Skip(32).ToArray();
 
@@ -64,8 +65,8 @@ namespace FxSyncNet
         //deriveHawkCredentials
         public static byte[] DeriveHawkCredentials(string tokenHex, string context)
         {
-            byte[] token = Util.FromHexString(tokenHex);
-            byte[] info = Util.Kw(context);
+            byte[] token = BinaryHelper.FromHexString(tokenHex);
+            byte[] info = BinaryHelper.Kw(context);
 
             using (var hmac = new HMACSHA256())
             {
@@ -77,7 +78,7 @@ namespace FxSyncNet
 
         private static BundleKeys DeriveBundleKeys(byte[] key, string keyInfo)
         {
-            byte[] info = Util.Kw(keyInfo);
+            byte[] info = BinaryHelper.Kw(keyInfo);
             
             using (var hmac = new HMACSHA256())
             {
