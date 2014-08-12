@@ -48,6 +48,9 @@
     <Compile Include="..\FxSyncNet\AccountClient.cs">
       <Link>AccountClient.cs</Link>
     </Compile>
+    <Compile Include="..\FxSyncNet\AuthenticationException.cs">
+      <Link>AuthenticationException.cs</Link>
+    </Compile>
     <Compile Include="..\FxSyncNet\AuthenticationMethod.cs">
       <Link>AuthenticationMethod.cs</Link>
     </Compile>
@@ -71,9 +74,6 @@
     </Compile>
     <Compile Include="..\FxSyncNet\HKDF.cs">
       <Link>HKDF.cs</Link>
-    </Compile>
-    <Compile Include="..\FxSyncNet\JwtCrypto.cs">
-      <Link>JwtCrypto.cs</Link>
     </Compile>
     <Compile Include="..\FxSyncNet\Models\BasicStorageObject.cs">
       <Link>Models\BasicStorageObject.cs</Link>
@@ -102,6 +102,12 @@
     <Compile Include="..\FxSyncNet\Models\EncryptedPayload.cs">
       <Link>Models\EncryptedPayload.cs</Link>
     </Compile>
+    <Compile Include="..\FxSyncNet\Models\ErrorResponse.cs">
+      <Link>Models\ErrorResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\HistoryRecord.cs">
+      <Link>Models\HistoryRecord.cs</Link>
+    </Compile>
     <Compile Include="..\FxSyncNet\Models\KeysResponse.cs">
       <Link>Models\KeysResponse.cs</Link>
     </Compile>
@@ -119,6 +125,9 @@
     </Compile>
     <Compile Include="..\FxSyncNet\Models\TokenResponse.cs">
       <Link>Models\TokenResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Models\Visit.cs">
+      <Link>Models\Visit.cs</Link>
     </Compile>
     <Compile Include="..\FxSyncNet\Pbkdf2.cs">
       <Link>Pbkdf2.cs</Link>
@@ -170,6 +179,9 @@
     </Compile>
     <Compile Include="..\FxSyncNet\Util\DateTimeJsonConverter.cs">
       <Link>Util\DateTimeJsonConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\FxSyncNet\Util\JwtCryptoHelper.cs">
+      <Link>Util\JwtCryptoHelper.cs</Link>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -9,6 +9,7 @@ namespace FxSyncNet.Util
 {
     public class DateTimeJsonConverter : JsonConverter
     {
+
         public override bool CanConvert(Type objectType)
         {
             return objectType == typeof(DateTime);
@@ -17,6 +18,9 @@ namespace FxSyncNet.Util
         public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
         {
             long seconds = (long)reader.Value;
+
+            if (seconds.ToString().Length == 16) // Microseconds
+                seconds /= 1000000;
 
             DateTime dateTime = new DateTime(1970, 1, 1);
             return dateTime.AddSeconds(seconds);

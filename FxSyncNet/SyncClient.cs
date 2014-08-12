@@ -44,8 +44,8 @@ namespace FxSyncNet
 
             CertificateSignResponse certificate = await account.CertificateSign(response.SessionToken, rsa, duration);
 
-            string jwtToken = JwtCrypto.GetJwtToken(rsa);
-            string assertion = JwtCrypto.Bundle(jwtToken, certificate.Certificate);
+            string jwtToken = JwtCryptoHelper.GetJwtToken(rsa);
+            string assertion = JwtCryptoHelper.Bundle(jwtToken, certificate.Certificate);
 
             byte[] kB = BinaryHelper.Xor(wrapKB, credentials.UnwrapBKey);
 
@@ -98,6 +98,18 @@ namespace FxSyncNet
 
             IEnumerable<BasicStorageObject> collection = await storageClient.GetCollection("tabs", true);
             return Crypto.DecryptWbos<Client>(collectionKeys, collection);
+        }
+
+        public async Task<IEnumerable<HistoryRecord>> GetHistory()
+        {
+            if (!isSignedIn)
+                throw new InvalidOperationException("Please sign in first.");
+
+            if (storageClient == null || collectionKeys == null)
+                throw new InvalidOperationException("Please make sure you are correctly logged in to the sync service.");
+
+            IEnumerable<BasicStorageObject> collection = await storageClient.GetCollection("history", true);
+            return Crypto.DecryptWbos<HistoryRecord>(collectionKeys, collection);
         }
     }
 }

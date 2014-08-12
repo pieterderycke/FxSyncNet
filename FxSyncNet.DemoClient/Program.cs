@@ -20,17 +20,18 @@ namespace FxSyncNet.DemoClient
 
             SyncClient syncClient = new SyncClient();
             syncClient.SignIn(email, password).Wait();
-            IEnumerable<Bookmark> bookmarks = syncClient.GetBookmarks().Result;
+            //IEnumerable<Bookmark> bookmarks = syncClient.GetBookmarks().Result;
             //IEnumerable<Client> clients = syncClient.GetTabs().Result;
+            IEnumerable<HistoryRecord> history = syncClient.GetHistory().Result;
 
-            Console.WriteLine("Bookmarks:");
+            //Console.WriteLine("Bookmarks:");
 
-            foreach (Bookmark bookmark in bookmarks)
-            {
-                Console.WriteLine("Title: " + bookmark.Title);
-                Console.WriteLine("Uri: " + bookmark.Uri);
-                Console.WriteLine("------");
-            }
+            //foreach (Bookmark bookmark in bookmarks)
+            //{
+            //    Console.WriteLine("Title: " + bookmark.Title);
+            //    Console.WriteLine("Uri: " + bookmark.Uri);
+            //    Console.WriteLine("------");
+            //}
 
             //Console.WriteLine("Tabs:");
 

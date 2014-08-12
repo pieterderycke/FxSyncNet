@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Security;
 using FxSyncNet.Util;
+using FxSyncNet.Models;
 
 namespace FxSyncNet
 {
@@ -102,8 +103,23 @@ namespace FxSyncNet
             {
                 if (response.StatusCode == HttpStatusCode.GatewayTimeout)
                     throw new ServiceNotAvailableException("The service is not responding and seems to be down.");
-                else
-                    throw new Exception("Execute failed.");
+                else if(response.StatusCode == HttpStatusCode.BadRequest)
+                {
+                    string data = response.Content.ReadAsStringAsync().Result;
+                    ErrorResponse error = JsonConvert.DeserializeObject<ErrorResponse>(data);
+
+                    switch(error.ErrNo)
+                    {
+                        case 102:
+                            throw new AuthenticationException("Unknown account.");
+                        case 103:
+                            throw new AuthenticationException("Incorrect password.");
+                        case 104:
+                            throw new AuthenticationException("Unverified account.");
+                    }
+                }
+
+                throw new Exception("An issue occured when calling the service.");
             }
         }
 

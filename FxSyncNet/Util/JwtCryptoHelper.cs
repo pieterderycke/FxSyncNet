@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using FxSyncNet.Security;
 
-namespace FxSyncNet
+namespace FxSyncNet.Util
 {
-    public static class JwtCrypto
+    public static class JwtCryptoHelper
     {
         public static string GetJwtToken(RSACryptoServiceProvider rsa)
         {
