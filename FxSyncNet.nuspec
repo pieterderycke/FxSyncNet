@@ -20,7 +20,7 @@
 			<dependency id="jose-jwt" version="1.6.0" />
 		</group>	
 		<group>
-			<dependency id="Newtonsoft.Json" version="6.0.3" />
+			<dependency id="Newtonsoft.Json" version="6.0.4" />
 			<dependency id="Microsoft.Net.Http" version="2.2.22" />
 		</group>
 	</dependencies>
